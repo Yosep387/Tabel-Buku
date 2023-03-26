@@ -2,73 +2,94 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Calendar;
 
-public class TabelMahasiwa {
+public class TabelBuku {
     public static void main(String[] args) throws Exception {
 
         Scanner input = new Scanner(System.in);
 
-        ArrayList<Mahasiswa> mhs = new ArrayList<Mahasiswa>();
+        ArrayList<Buku> buku = new ArrayList<Buku>();
 
-        System.out.print("Berapa Data Mahasiswa yang Akan Diinput : ");
+        System.out.print("Masukan Jumlah Buku yang Akan Diinput : ");
         int jumlahInput = input.nextInt();
 
         for(int i=1; i<=jumlahInput; i++) {
-            System.out.println("Isi Data Mahasiswa ke-" + i + " :");
-            System.out.print("Nama Mahasiswa : ");
-            String nama = input.nextLine();
-            System.out.print("NIM : ");
-            String nim = input.nextLine();
-            System.out.print("Jurusan : ");
-            String jurusan = input.nextLine();
-            System.out.print("Tahun Lahir : ");
-            String tahun_lahir = input.nextLine();
-            System.out.print("Jenis Kelamin : ");
-            String jenis_kelamin = input.nextLine();
+            System.out.println(i + ")");
+            System.out.print("Judul Buku : ");
+            String judul = input.nextLine();
+            System.out.print("Pengarang : ");
+            String pengarang = input.nextLine();
+            System.out.print("Penerbit : ");
+            String penerbit = input.nextLine();
+            System.out.print("Kategori : ");
+            String kategori = input.nextLine();
+            System.out.print("Tahun : ");
+            String tahun = input.nextLine();
 
-            String umur = umurCalculate(Integer.parseInt(tahun_lahir));
-            mhs.add(new Mahasiswa(nama, nim, jurusan, umur, jenis_kelamin));
+            String kat = kategoriBuku(kategori);
+            buku.add(new Buku(judul, pengarang, penerbit, kat, tahun));
         }
 
         System.out.println("=================================================================================");
-        System.out.println("No\tNama\tNIM\t\tJurusan\t\t\tUmur\tJenis Kelamin");
+        System.out.println("No\tJudul\tPengarang\tPenerbit\tTahun\t\tKategori");
         System.out.println("=================================================================================");
         int i = 1;
-        int jumlah_lakilaki = 0;
-        int jumlah_perempuan = 0;
-        for(Mahasiswa m:mhs) {
-            System.out.println(i+"\t"+m.nama+"\t"+m.nim+"\t"+m.jurusan+"\t"+m.umur+"\t"+m.jenis_kelamin);
-            if(m.jenis_kelamin.toLowerCase().equals("laki-laki")) {
-                jumlah_lakilaki++;
-            }else if(m.jenis_kelamin.toLowerCase().equals("perempuan")) {
-                jumlah_perempuan++;
+        int jumlah_teknik = 0;
+        int jumlah_manajemen = 0;
+        int jumlah_fiksi = 0;
+        int jumlah_lainnya = 0;
+        int jumlah_lawas = 0;
+        int jumlah_baru = 0;
+        for(Buku b:buku) {
+            System.out.println(i+"\t"+b.judul+"\t"+b.pengarang+"\t\t"+b.penerbit+"\t\t"+b.tahun+"\t\t"+b.kategori);
+            if(b.kategori.toLowerCase().equals("teknik")) {
+                jumlah_teknik++;
+            }else if(b.kategori.toLowerCase().equals("manajemen")) {
+                jumlah_manajemen++;
+            }else if(b.kategori.toLowerCase().equals("fiksi")) {
+                jumlah_fiksi++;
+            }else if(b.kategori.toLowerCase().equals("lainnya")) {
+                jumlah_lainnya++;
+            }
+
+            if(Integer.parseInt(b.tahun) <= 2010) {
+                jumlah_lawas++;
+            }else{
+                jumlah_baru++;
             }
             i++;
         }
 
-        System.out.println("Jumlah Mahasiswa : " + mhs.size());
-        System.out.println("Jumlah Laki-Laki : " + jumlah_lakilaki);
-        System.out.println("Jumlah Perempuan : " + jumlah_perempuan);
+        System.out.println("Jumlah Buku yang Tersedia : " + buku.size());
+        System.out.println("Buku Teknik : " + jumlah_teknik);
+        System.out.println("Buku Manajemen : " + jumlah_manajemen);
+        System.out.println("Buku Fiksi : " + jumlah_fiksi);
+        System.out.println("Buku Lainnya : " + jumlah_lainnya);
+        System.out.println("Buku Lawas : " + jumlah_lawas);
+        System.out.println("Buku Baru : " + jumlah_baru);
     }
 
-    public static String umurCalculate(int umur) {
-        Calendar kalender = Calendar.getInstance();
-        int tahun_sekarang = kalender.get(Calendar.YEAR);
-        String sUmur = String.valueOf(umur = tahun_sekarang - umur);
-        return sUmur;
-    }
-}
-
-class Mahasiswa {
-    public String nama, nim, jurusan, umur, jenis_kelamin;
-
-    public Mahasiswa(String nama, String nim, String jurusan, String umur, String jenis_kelamin) {
-        this.nama = nama;
-        this.nim = nim;
-        this.jurusan = jurusan;
-        this.umur = umur;
-        this.jenis_kelamin = jenis_kelamin;
+    public static String kategoriBuku(String kategori) {
+        if(kategori.equals("1")) {
+            kategori = "Teknik";
+        } else if(kategori.equals("2")) {
+            kategori = "Manajemen";
+        } else if(kategori.equals("3")) {
+            kategori = "Fiksi";
+        } else if(kategori.equals("4")) {
+            kategori = "Lainnya";
+        } 
+        return kategori;
     }
 }
 
-class Umur {
+class Buku {
+    public String judul, pengarang, penerbit, kategori, tahun;
+
+    public Buku(String judul, String pengarang, String penerbit, String kategori, String tahun) {
+        this.judul = judul;
+        this.pengarang = pengarang;
+        this.penerbit = penerbit;
+        this.kategori = kategori;
+        this.tahun = tahun;
+    }
 }
